@@ -1,0 +1,151 @@
+---------- RIP ----------
+1 - 
+
+// Configuration des PC
+Exemple du PC-A :
+ip address : 192.168.10.10
+subnetmask : 255.255.255.0
+default getway : 192.168.10.1
+
+
+// Configuration des routeurs
+Exemple du routeur LAB-A :
+enable
+conf t
+hostname LAB-A
+interface GigabitEthernet0/0
+ip address 192.168.10.1 255.255.255.0
+no shutdown
+exit
+interface Serial0/1/0
+ip address 192.168.30.1 255.255.255.0
+no shutdown
+exit
+router rip
+network 192.168.10.10
+network 192.168.30.2
+network 192.168.10.1
+exit
+exit
+copy run start
+
+Ajout pour LAB- A, LAB-B et LAB-C :
+interface Serial0/1/0
+clock rate 56000
+
+// Afficher la table de Routage
+show ip route
+
+- Prefixe route directe : C
+- Prefixe route protocole RIP : R
+- Prefixe route static : S
+
+--> voir photos 1 (IPRoute)
+
+// Test de la connectivité
+
+Tous les PCs sont pingable
+
+test dans le PC-E
+--> voir photos 2 (Ping1 & Ping2)
+
+
+2 -
+
+Ajout sur LAB-A :
+interface Serial0/1/1
+ip address 192.168.60.1 255.255.255.0
+no shutdown
+exit
+router rip
+network 192.168.60.2
+exit
+exit
+copy run start
+
+Ajout sur LAB-F :
+interface Serial0/1/1
+ip address 192.168.80.2 255.255.255.0
+no shutdown
+exit
+router rip
+network 192.168.80.1
+exit
+exit
+copy run start
+
+Ajout sur LAB-G :
+hostname LAB-G
+interface Serial0/1/1
+ip address 192.168.60.2 255.255.255.0
+no shutdown
+exit
+interface Serial0/1/0
+ip address 192.168.70.1 255.255.255.0
+no shutdown
+exit
+router rip
+network 192.168.60.1
+network 192.168.70.2
+exit
+exit
+copy run start
+
+Ajout sur LAB-H :
+hostname LAB-H
+interface Serial0/1/1
+ip address 192.168.70.2 255.255.255.0
+no shutdown
+exit
+interface Serial0/1/0
+ip address 192.168.80.1 255.255.255.0
+no shutdown
+exit
+router rip
+network 192.168.70.1
+network 192.168.80.2
+exit
+exit
+copy run start
+
+Après avoir désactivé le lien entre B et C, le PC F
+reste accessible par les autres PC.
+
+Ajout pour LAB-I
+hostname LAB-I
+interface Serial0/1/1
+ip address 192.168.90.2 255.255.255.0
+no shutdown
+exit
+interface Serial0/1/0
+ip address 192.168.100.1 255.255.255.0
+no shutdown
+exit
+router rip
+network 192.168.100.2
+network 192.168.90.1
+exit
+exit
+copy run start
+
+Ajout sur LAB-A :
+interface Serial0/0/0
+ip address 192.168.90.1 255.255.255.0
+no shutdown
+exit
+router rip
+network 192.168.90.2
+exit
+exit
+copy run start
+
+Ajout sur LAB-F :
+interface Serial0/0/1
+ip address 192.168.100.2 255.255.255.0
+no shutdown
+exit
+router rip
+network 192.168.100.1
+exit
+exit
+copy run start
