@@ -1,0 +1,79 @@
+
+// -------------------- EXERCICE 1 --------------------
+// 2.1
+
+// Sur LAB_I
+interface Serial0/0/1
+ip address 10.0.100.1 255.255.255.0
+clock rate 56000
+no shutdown
+
+// Sur ISPB-OSPF-BGP100
+hostname ISPB-OSPF-BGP100
+interface Serial0/1/0
+ip address 10.0.100.2 255.255.255.0
+no shutdown
+
+interface GigabitEthernet0/1
+ip address 10.0.200.1 255.255.255.0
+no shutdown
+ex
+interface GigabitEthernet0/0
+ip address 20.0.100.1 255.255.255.0
+no shutdown
+
+// 2.2 routage OSPF
+
+// Sur LAB_I
+router ospf 1
+network 10.0.200.1 0.0.0.255 area 0
+network 20.0.100.1 0.0.0.255 area 0
+end
+
+
+--------------------------QUestion 2 --------------
+//2.1
+//Sur ISPA
+
+router bgp 200
+//no network 10.0.0.0
+neighbor 10.0.100.2 remote-as 100
+network 192.168.10.1 mask 255.255.255.0
+
+
+//Sur ISPB
+
+router bgp 100
+neighbor 10.0.100.1 remote-as 200
+network 10.0.200.1 mask 255.255.255.0
+
+sh running-config -> image RouterISPB et RouterLABI
+
+ 
+//2.2
+
+Sur Lab-A
+ip route 0.0.0.0 0.0.0.0 192.168.90.2
+end
+
+Sur Lab-E
+ip route 0.0.0.0 0.0.0.0 192.168.10.1
+end
+
+
+IMAGE : pingsurlabbgp 
+--> 1ere adresse LAB-A
+--> 2eme adresse PC-A
+--> 3eme adresse LAB-E
+
+//2.3
+Meme reponse que 2.2 mais en texte 
+--> on a ajoutez une route ip sur lab-a pour que LAB-I SOIS LE ROUTEUR PAR DEFAUT LES pc 192.168.10.0
+
+
+
+
+
+
+
+
